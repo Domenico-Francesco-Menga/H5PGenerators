@@ -1,0 +1,24 @@
+- Objective:
+This project aims to generate and provide an executable h5p package through an API call to the service. 
+Passing a JSON payload containing information such as questions, minimum percentage to pass the test, etc.
+
+
+Service description:
+/generate-h5p
+The structure of the payload to be sent is as follows:
+
+{
+  json_data: Json
+  source_name: str
+  title: str
+  randomization: bool
+  pool_size: int
+  pass_percentage: int
+}
+Description:
+  json_data: JSON containing the questions
+  source_name: name
+  title: quiz title
+  randomization: a boolean that maps whether you want to randomize the questions or not
+  pool_size: size of the question pool
+  pass_percentage: minimum percentage required for the test to be considered.
