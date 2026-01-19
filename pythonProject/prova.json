@@ -1,0 +1,55 @@
+{
+   "questions":[
+      {
+         "type":"DragText",
+         "question":"Il cognome di domenico e' *Menga*",
+         "distractors":"*Mena**Sena**Vena*",
+         "correct_answer":true,
+         "feedback_correct":"¡Excelente! Has respondido correctamente.",
+         "feedback_incorrect":"Respuesta incorrecta. Revisa el contenido."
+      },
+      {
+         "type":"Blank",
+         "question":["Il cognome di carla e' *Menga*"],
+         "correct_answer":true,
+         "feedback_correct":"¡Excelente! Has respondido correctamente.",
+         "feedback_incorrect":"Respuesta incorrecta. Revisa el contenido."
+      },
+      {
+         "type":"TrueFalse",
+         "question":"Pregunta 3: Si no existiera un sistema de archivos, ¿cuál sería la principal consecuencia para los datos?",
+         "correct_answer":true,
+         "feedback_correct":"¡Excelente! Has respondido correctamente.",
+         "feedback_incorrect":"Respuesta incorrecta. Revisa el contenido."
+      },
+      {
+         "type":"multichoice",
+         "question":"¿Cuál de las siguientes es una de las tres grandes categorías de archivos en Linux, según el texto?",
+         "options":[
+            {
+               "text":"Archivos ejecutables",
+               "is_correct":false,
+               "feedback":""
+            },
+            {
+               "text":"Archivos de programa",
+               "is_correct":false,
+               "feedback":""
+            },
+            {
+               "text":"Archivos generales",
+               "is_correct":true,
+               "feedback":""
+            },
+            {
+               "text":"Archivos de usuario",
+               "is_correct":false,
+               "feedback":""
+            }
+         ],
+         "correct_answer":true,
+         "feedback_correct":"",
+         "feedback_incorrect":""
+      }
+   ]
+}
