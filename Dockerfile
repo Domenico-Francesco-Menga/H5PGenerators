@@ -1,17 +1,17 @@
-# Usa un'immagine base di Python
 FROM python:3.10-slim
 
-# Imposta la cartella di lavoro nel container
 WORKDIR /app
 
-# Copia il file dei requisiti e installa le dipendenze
+# Installiamo uvicorn esplicitamente oltre ai tuoi requisiti
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt uvicorn
 
-# Copia tutto il resto del progetto
 COPY . .
 
-# Espone la porta su cui gira il tuo servizio REST (es. 5000, 8000 o 8080)
-EXPOSE 5000 
+# FastAPI di default gira spesso sulla 8000, ma la mappiamo sulla 5000 come volevi
+EXPOSE 5000
 
-CMD ["python", "Server.py"]
+# Usiamo uvicorn per far girare l'app FastAPI
+# --host 0.0.0.0 è fondamentale per Docker
+# --port 5000 mappa la porta interna
+CMD ["uvicorn", "Server:app", "--host", "0.0.0.0", "--port", "5000"]
