@@ -11,5 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia tutto il resto del progetto
 COPY . .
 
-# Comando per avviare l'applicazione (cambia main.py col tuo file)
-CMD ["python", "main.py"]
+# Espone la porta su cui gira il tuo servizio REST (es. 5000, 8000 o 8080)
+EXPOSE 5000 
+
+CMD ["python", "Server.py"]
