@@ -10,9 +10,11 @@ logging.basicConfig(
     format="%(levelname)s: %(message)s"
 )
 log = logging.getLogger("h5p_cli")
+def load_json_template(path):
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-
-def readJsonTemp(filepath):
+'''def readJsonTemp(filepath):
     TemplateJson = dict()
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
@@ -23,13 +25,13 @@ def readJsonTemp(filepath):
         log.error(f"Error: file '{filepath}' not found.")
     except json.JSONDecodeError:
         log.error(f"Error: file '{filepath}' not found.")
-
+'''
 
 def generate_uuid():
     return str(uuid.uuid4())
 
 
-def mapBlank(question):
+'''def mapBlank(question):
     """Mapea una pregunta Drag text de tu JSON al formato H5P.drag text."""
 
     try:
@@ -111,9 +113,29 @@ def mapBlank(question):
     except Exception as e:
         log.error(f"Error mapeando TrueFalse: {e}")
         return {}
+'''
 
 
-def mapDragText(question):
+def mapBlank(question_data):
+    """Mapea una pregunta al formato H5P leggendo il template da JSON."""
+    try:
+
+        h5p_question = load_json_template('templates/template_blanks.json')
+
+        text_with_blanks = ",".join(question_data["question"])
+        h5p_question["params"]["questions"] = [text_with_blanks]
+        h5p_question["subContentId"] = generate_uuid()
+        if "title" in question_data:
+            h5p_question["metadata"]["title"] = question_data["title"]
+
+        return h5p_question
+
+    except Exception as e:
+        print(f"Error mapeando Blanks: {e}")
+        return {}
+
+
+'''def mapDragText(question):
     """Mapea una pregunta Drag text de tu JSON al formato H5P.drag text."""
     try:
         #correct_answer = question.get("correct_answer", False)
@@ -182,10 +204,10 @@ def mapDragText(question):
 
     except Exception as e:
         log.error(f"Error mapeando TrueFalse: {e}")
-        return {}
+        return {}'''
 
 
-def map_multiple_choice(question):
+'''def map_multiple_choice(question):
     """Mapea una pregunta MultipleChoice de tu JSON al formato H5P.MultiChoice."""
     try:
         h5p_question = {
@@ -282,9 +304,65 @@ def map_multiple_choice(question):
     except Exception as e:
         log.error(f"Error mapeando MultipleChoice: {e}")
         return {}
+'''
 
 
-def map_true_false(question):
+def map_multiple_choice(question_data):
+    """Mapea una domanda MultipleChoice usando un template JSON esterno."""
+    try:
+        h5p_question = load_json_template('templates/template_multichoice.json')
+        h5p_question["params"]["question"] = question_data.get("question", "No se ha planteado ninguna pregunta.")
+        h5p_question["subContentId"] = generate_uuid()
+        options = question_data.get("options", [])
+        if not isinstance(options, list):
+            return h5p_question
+
+        for option in options:
+            answer = {
+                "text": option.get("text", ""),
+                "correct": option.get("is_correct", False),
+                "tipsAndFeedback": {
+                    "tip": "",
+                    "chosenFeedback": f"<div>{option.get('feedback', '')}</div>\n",
+                    "notChosenFeedback": ""
+                }
+            }
+            h5p_question["params"]["answers"].append(answer)
+
+        if "title" in question_data:
+            h5p_question["metadata"]["title"] = question_data["title"]
+            h5p_question["metadata"]["extraTitle"] = question_data["title"]
+
+        return h5p_question
+
+    except Exception as e:
+        log.error(f"Error mapeando MultipleChoice: {e}")
+        return {}
+
+
+def mapDragText(question):
+    """Mapea una pregunta Drag text usando un template JSON externo."""
+    try:
+
+        h5p_question = load_json_template('templates/template_dragtext.json')
+        text_field = question.get("question", "No se ha planteado ninguna pregunta.")
+        distractors = question.get("distractors", "")
+        h5p_question["params"]["textField"] = text_field
+        h5p_question["params"]["distractors"] = distractors
+        h5p_question["subContentId"] = generate_uuid()
+        if "title" in question:
+            h5p_question["metadata"]["title"] = question["title"]
+            h5p_question["metadata"]["extraTitle"] = question["title"]
+
+        return h5p_question
+
+    except Exception as e:
+        log.error(f"Error mapeando DragText: {e}")
+        return {}
+
+
+
+'''def map_true_false(question):
     """Mapea una pregunta True/False de tu JSON al formato H5P.TrueFalse."""
     try:
         correct_answer = question.get("correct_answer", False)
@@ -347,6 +425,29 @@ def map_true_false(question):
                 "extraTitle": "Verdadero/Falso"
             }
         }
+
+        return h5p_question
+
+    except Exception as e:
+        log.error(f"Error mapeando TrueFalse: {e}")
+        return {}'''
+
+
+def map_true_false(question_data):
+    """Mapea una pregunta True/False usando un template JSON esterno."""
+    try:
+
+        h5p_question = load_json_template('templates/template_truefalse.json')
+        correct_answer = question_data.get("correct_answer", False)
+        params = h5p_question["params"]
+        params["question"] = question_data.get("question", "No se ha planteado ninguna pregunta.")
+        params["correct"] = "true" if correct_answer else "false"
+        params["behaviour"]["feedbackOnCorrect"] = question_data.get("feedback_correct", "")
+        params["behaviour"]["feedbackOnWrong"] = question_data.get("feedback_incorrect", "")
+        h5p_question["subContentId"] = generate_uuid()
+        if "title" in question_data:
+            h5p_question["metadata"]["title"] = question_data["title"]
+            h5p_question["metadata"]["extraTitle"] = question_data["title"]
 
         return h5p_question
 

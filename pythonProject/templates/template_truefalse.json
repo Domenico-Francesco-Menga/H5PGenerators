@@ -1,0 +1,55 @@
+{
+    "library": "H5P.TrueFalse 1.8",
+    "params": {
+        "question": "",
+        "correct": "false",
+        "behaviour": {
+            "enableRetry": false,
+            "enableSolutionsButton": false,
+            "enableCheckButton": true,
+            "confirmCheckDialog": false,
+            "confirmRetryDialog": false,
+            "autoCheck": false,
+            "feedbackOnCorrect": "",
+            "feedbackOnWrong": ""
+        },
+        "media": {
+            "disableImageZooming": false
+        },
+        "l10n": {
+            "trueText": "Verdadero",
+            "falseText": "Falso",
+            "score": "Has conseguido @score de @total puntos.",
+            "checkAnswer": "Verificar",
+            "submitAnswer": "Enviar",
+            "showSolutionButton": "Mostrar solución",
+            "tryAgain": "Reintentar",
+            "wrongAnswerMessage": "Respuesta incorrecta",
+            "correctAnswerMessage": "Respuesta correcta",
+            "scoreBarLabel": "Has conseguido :num de :total puntos.",
+            "a11yCheck": "Comprueba las respuestas...",
+            "a11yShowSolution": "Mostrar la solución...",
+            "a11yRetry": "Reintentar la tarea..."
+        },
+        "confirmCheck": {
+            "header": "¿Terminar?",
+            "body": "¿Seguro que quieres terminar?",
+            "cancelLabel": "Cancelar",
+            "confirmLabel": "Terminar"
+        },
+        "confirmRetry": {
+            "header": "¿Reintentar?",
+            "body": "¿Seguro que quieres reintentar?",
+            "cancelLabel": "Cancelar",
+            "confirmLabel": "Confirmar"
+        }
+    },
+    "metadata": {
+        "contentType": "Pregunta Verdadero/Falso",
+        "license": "U",
+        "title": "Verdadero/Falso",
+        "authors": [],
+        "changes": [],
+        "extraTitle": "Verdadero/Falso"
+    }
+}
